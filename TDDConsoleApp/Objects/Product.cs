@@ -25,35 +25,39 @@ public class Product
     }
 
 
-    public Variant GetMinPrice()
+    public (Variant, int?) GetMinPrice()
     {
         Variant variant = Variants[0];
+        int? price = Variants[0].GetMinPrice().Price;
         for (int i = 1; i < Variants.Count; i++)
         {
-            var temp = Variants[i];
-            var gtinTemp = temp.GetMinPrice().Price;
-            if (gtinTemp is null || gtinTemp < variant.GetMinPrice().Price)
+            var variantTemp = Variants[i];
+            var priceTemp = Variants[i].GetMinPrice().Price;
+            if (priceTemp is null || priceTemp < price)
             {
-                variant = temp;
+                variant = variantTemp;
+                price = priceTemp;
             }
         }
-        return variant;
+        return (variant, price);
     }
 
 
-    public Variant GetMaxPrice()
+    public (Variant, int?) GetMaxPrice()
     {
         Variant variant = Variants[0];
+        int? price = Variants[0].GetMaxPrice().Price;
         for (int i = 1; i < Variants.Count; i++)
         {
             var temp = Variants[i];
-            var gtinTemp = temp.GetMinPrice().Price;
-            if (gtinTemp is not null && gtinTemp > variant.GetMinPrice().Price)
+            var priceTemp = Variants[i].GetMaxPrice().Price;
+            if (priceTemp is not null && priceTemp > price)
             {
                 variant = temp;
+                price = priceTemp;
             }
         }
-        return variant;
+        return (variant, price);
     }
 
 

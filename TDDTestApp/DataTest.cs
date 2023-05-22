@@ -27,7 +27,7 @@ public class DataTest
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("100");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.Output());
+        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
     }
 
 
