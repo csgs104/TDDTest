@@ -7,72 +7,62 @@ public class Product
 {
 	private readonly string _name;
 	private readonly IList<Variant> _variants;
+    public int? _price;
 
-	public string Name { get => _name; }
+
+    public string Name { get => _name; }
     public IList<Variant> Variants { get => _variants; }
+    public int? Price { get => _price; }
 
 
     public Product(string name, IList<Variant> variants)
 	{
 		_name = name;
 		_variants = variants;
-	}
+        SetPrice();
+    }
+
 
     public Product(string name)
     {
         _name = name;
         _variants = new List<Variant>();
+        _price = null;
     }
 
 
-    public (Variant, int?) GetMinPrice()
+    public void SetPrice()
     {
-        Variant variant = Variants[0];
-        int? price = Variants[0].GetMinPrice().Price;
+        var price = Variants[0].Price;
         for (int i = 1; i < Variants.Count; i++)
         {
-            var variantTemp = Variants[i];
-            var priceTemp = Variants[i].GetMinPrice().Price;
-            if (priceTemp is null || priceTemp < price)
+            var temp = Variants[i].Price;
+            if (temp is null || temp < price)
             {
-                variant = variantTemp;
-                price = priceTemp;
+                price = temp;
             }
         }
-        return (variant, price);
+        _price = price;
     }
 
 
-    public (Variant, int?) GetMaxPrice()
+    public Variant GetMaxVariant()
     {
-        Variant variant = Variants[0];
-        int? price = Variants[0].GetMaxPrice().Price;
+        var variant = Variants[0];
         for (int i = 1; i < Variants.Count; i++)
         {
             var temp = Variants[i];
-            var priceTemp = Variants[i].GetMaxPrice().Price;
-            if (priceTemp is not null && priceTemp > price)
+            if (variant.Price is null || (temp.Price is not null && temp.Price > variant.Price))
             {
                 variant = temp;
-                price = priceTemp;
             }
         }
-        return (variant, price);
+        return variant;
     }
 
 
-    public (bool, int?) EqualPrices()
+    public bool EqualPrices()
     {
-        var result = Variants[0].EqualPrices();
-        if (Variants.All(v => v.EqualPrices().Item1 == true))
-        {
-            return Variants.All(v => v.EqualPrices().Item2 == result.Item2) 
-		           ? (true, result.Item2) 
-		           : (false, null);
-        }
-        else
-        {
-            return (false, null);
-        }
+        return Variants.All(g => g.Price == Price);
     }
 }

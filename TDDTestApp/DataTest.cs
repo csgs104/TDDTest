@@ -19,80 +19,86 @@ public class DataTest
 
 
     [Fact]
-    public void Should_Output()
+    public void Should_Output0()
     {
-        IList<string> list = new List<string>();
+        var list = new List<string>();
         list.Add("G1"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G2"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("100");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
+        var n = Environment.NewLine;
+        Assert.Equal($"Output{n}Level: P1, Price: 100.{n}End", _sut.Output());
     }
 
     [Fact]
     public void Should_Output1()
     {
-        IList<string> list = new List<string>();
+        var list = new List<string>();
         list.Add("G1"); list.Add("V1"); list.Add("P1"); list.Add("50");
         list.Add("G2"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("100");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
+        var n = Environment.NewLine;
+        Assert.Equal($"Output{n}Level: G2, Price: 100.{n}Level: V2, Price: 100.{n}Level: P1, Price: 50.{n}End", _sut.Output());
     }
 
     [Fact]
     public void Should_Output2()
     {
-        IList<string> list = new List<string>();
+        var list = new List<string>();
         list.Add("G1"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G2"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G5"); list.Add("V2"); list.Add("P1"); list.Add("100");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
+        var n = Environment.NewLine;
+        Assert.Equal($"Output{n}Level: P1, Price: 100.{n}End", _sut.Output());
     }
 
 
     [Fact]
     public void Should_Output3()
     {
-        IList<string> list = new List<string>();
+        var list = new List<string>();
         list.Add("G1"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G2"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G5"); list.Add("V3"); list.Add("P1"); list.Add("100");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
+        var n = Environment.NewLine;
+        Assert.Equal($"Output{n}Level: P1, Price: 100.{n}End", _sut.Output());
     }
 
 
     [Fact]
     public void Should_Output4()
     {
-        IList<string> list = new List<string>();
+        var list = new List<string>();
         list.Add("G1"); list.Add("V1"); list.Add("P1"); list.Add(null);
         list.Add("G2"); list.Add("V1"); list.Add("P1"); list.Add("100");
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("100");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
+        var n = Environment.NewLine;
+        Assert.Equal($"Output{n}Level: G2, Price: 100.{n}Level: V2, Price: 100.{n}End", _sut.Output());
     }
 
 
     [Fact]
     public void Should_Output5()
     {
-        IList<string> list = new List<string>();
+        var list = new List<string>();
         list.Add("G1"); list.Add("V1"); list.Add("P1"); list.Add("50");
         list.Add("G2"); list.Add("V1"); list.Add("P1"); list.Add("70");
         list.Add("G3"); list.Add("V2"); list.Add("P1"); list.Add("100");
         list.Add("G4"); list.Add("V2"); list.Add("P1"); list.Add("90");
         _sut.Input(list);
-        Assert.Equal($"Level: P1, Price: 100.{Environment.NewLine}Fin.", _sut.OutputSimple());
+        var n = Environment.NewLine;
+        Assert.Equal($"Output{n}Level: G2, Price: 70.{n}Level: G3, Price: 100.{n}Level: V2, Price: 90.{n}Level: P1, Price: 50.{n}End", _sut.Output());
     }
 
 

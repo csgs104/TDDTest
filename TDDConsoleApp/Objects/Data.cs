@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 
 namespace TDDConsoleApp.Objects;
@@ -6,6 +7,7 @@ namespace TDDConsoleApp.Objects;
 public class Data
 {
     private readonly IList<Product> _products;
+
 
     public IList<Product> Products { get => _products; }
 
@@ -21,11 +23,12 @@ public class Data
         Product product;
         if (Products.Any(p => p.Name == productName))
         {
-            product = Products.Single(v => v.Name == productName);
+            product = Products.Single(p => p.Name == productName);
         }
         else
         {
             product = new Product(productName);
+            Products.Add(product);
         }
 
         Variant variant;
@@ -36,84 +39,81 @@ public class Data
         else
         {
             variant = new Variant(variantName);
+            product.Variants.Add(variant);
         }
 
-        Gtin gitin = new Gtin(gtinName, price);
-
-        variant.Gtins.Add(gitin);
-        product.Variants.Add(variant);
-        Products.Add(product);
-    }
-
-    public Data Input(IList<string> list)
-    {
-        var data = new Data();
-
-        if (list.Count % 4 != 0) throw new Exception("Wrong Input");
-        else for (int i = 0; i < list.Count / 4; i+=4) Build(list[i], list[i + 1], 
-	                                                        list[i + 2], int.Parse(list[i+3]));
-        return data;
+        Gtin gtin = new Gtin(gtinName, price);
+        variant.Gtins.Add(gtin);
     }
 
 
-    public string OutputSimple() 
+    private void SetPrices()
     {
-        var str = string.Empty;
+        foreach (var product in Products)
+        {
+            foreach (var variant in product.Variants)
+            {
+                variant.SetPrice();
+            }
+            product.SetPrice();
+        }
+    }
 
-        string levelp = string.Empty;
 
-        foreach (var p in Products) 
+    public void Input(IList<string> list)
+    {
+        if (list.Count % 4 != 0) throw new Exception("Wrong Input Lenght");
+        for (int i = 0; i < list.Count; i += 4)
+        {
+            if (list[i] is null) throw new Exception("Wrong Gtin Input");
+            if (list[i + 1] is null) throw new Exception("Wrong Variant Input");
+            if (list[i + 2] is null) throw new Exception("Wrong Product Input");
+            if (list[i + 3] is null ? false : !int.TryParse(list[i + 3], out _)) throw new Exception("Wrong Price Input");
+        }
+
+        for (int i = 0; i < list.Count; i += 4) 
 	    {
-            var result = p.EqualPrices();
-            if (p.EqualPrices().Item1) 
-	        {
-                str += $"Level: {p.Name}, Price: {result.Item2}.{Environment.NewLine}"; 
-	        }
+            Build(list[i], list[i + 1], list[i + 2], int.TryParse(list[i + 3], out int res) ? res : null);
         }
-
-        str += $"Fin.";
-        return str;     
     }
+
 
     public string Output()
     {
-        var str = string.Empty;
+        var output = new StringBuilder();
+        output.Append($"Output{Environment.NewLine}");
+        SetPrices();
 
-        foreach (var p in Products)
+        foreach (var product in Products)
         {
-            var pEquals = p.EqualPrices();
-            if (p.EqualPrices().Item1)
+            foreach (var variant in product.Variants)
             {
-                str += $"Level: {p.Name}, Price: {pEquals.Item2}.{Environment.NewLine}";
+                if (!variant.EqualPrices())
+                {
+                    var gtin = variant.GetMaxGtin();
+                    output.Append($"Level: {gtin.Name}, Price: {gtin.Price}.");
+                    output.Append($"{Environment.NewLine}");
+                }
+            }
+
+            if (!product.EqualPrices()) 
+            {
+                var variant = product.GetMaxVariant();
+                output.Append($"Level: {variant.Name}, Price: {variant.Price}.");
+                output.Append($"{Environment.NewLine}");
+            }
+
+            if (product.Price is null)
+            {
+                output.Append(string.Empty);
             }
             else
             {
-                var vMax = p.GetMaxPrice();
-                var vMin = p.GetMaxPrice();
-
-                str += $"Level: {p.Name}, Price: {vMin.Item1}.{Environment.NewLine}";
-
-                foreach (var v in p.Variants)
-                {
-                    var vEquals = v.EqualPrices();
-                    if (v.EqualPrices().Item1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        var gMax = v.GetMaxPrice();
-                        var gMin = v.GetMaxPrice();
-
-                        str += $"Level: {v.Name}, Price: {gMax.Price}.{Environment.NewLine}";
-                        str += $"Level: {v.Name}, Price: {gMax.Price}.{Environment.NewLine}";
-                    }
-                }
+                output.Append($"Level: {product.Name}, Price: {product.Price}.");
+                output.Append($"{Environment.NewLine}");
             }
         }
-
-        str += $"Fin.";
-        return str;
+        output.Append($"End");
+        return output.ToString();
     }
 }
-
