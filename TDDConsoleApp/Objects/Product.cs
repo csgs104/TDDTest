@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace TDDConsoleApp.Objects;
+﻿namespace TDDConsoleApp.Objects;
 
 public class Product
 {
@@ -9,11 +6,9 @@ public class Product
 	private readonly IList<Variant> _variants;
     public int? _price;
 
-
     public string Name { get => _name; }
     public IList<Variant> Variants { get => _variants; }
     public int? Price { get => _price; }
-
 
     public Product(string name, IList<Variant> variants)
 	{
@@ -22,14 +17,12 @@ public class Product
         SetPrice();
     }
 
-
     public Product(string name)
     {
         _name = name;
         _variants = new List<Variant>();
         _price = null;
     }
-
 
     public void SetPrice()
     {
@@ -45,7 +38,6 @@ public class Product
         _price = price;
     }
 
-
     public Variant GetMaxVariant()
     {
         var variant = Variants[0];
@@ -59,7 +51,6 @@ public class Product
         }
         return variant;
     }
-
 
     public bool EqualPrices()
     {

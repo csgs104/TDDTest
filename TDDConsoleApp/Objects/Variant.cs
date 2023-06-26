@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace TDDConsoleApp.Objects;
+﻿namespace TDDConsoleApp.Objects;
 
 public class Variant
 {
@@ -9,11 +6,9 @@ public class Variant
     private readonly IList<Gtin> _gtins;
     private int? _price;
 
-
     public string Name { get => _name; }
     public IList<Gtin> Gtins { get => _gtins; }
     public int? Price { get => _price; }
-
 
     public Variant(string name, IList<Gtin> gtins)
     {
@@ -22,14 +17,12 @@ public class Variant
         SetPrice();
     }
 
-
     public Variant(string name)
     {
         _name = name;
         _gtins = new List<Gtin>();
         _price = null;
     }
-
 
     public void SetPrice()
     {
@@ -45,7 +38,6 @@ public class Variant
         _price = price;
     }
 
-
     public Gtin GetMaxGtin()
     {
         var gtin = Gtins[0];
@@ -59,7 +51,6 @@ public class Variant
         }
         return gtin;
     }
-
 
     public bool EqualPrices()
     {

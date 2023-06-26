@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿namespace TDDConsoleApp.IoC;
+
 using Microsoft.Extensions.Hosting;
-
+// using Microsoft.Extensions.Configuration;
+// using Microsoft.Extensions.DependencyInjection;
 // using ...;
-
-
-namespace TDDConsoleApp.IoC;
 
 public static class Startup
 {

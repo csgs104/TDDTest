@@ -1,9 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿// using Microsoft.Extensions.DependencyInjection;
 
 using TDDConsoleApp.IoC;
-using TDDConsoleApp;
 using TDDConsoleApp.Objects;
-
 
 Console.WriteLine("Hello.");
 
@@ -60,4 +58,3 @@ Console.ReadLine();
 Console.WriteLine("#### #### #### #### #### #### #### ####");
 
 Console.WriteLine("Bye.");
-
